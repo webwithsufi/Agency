@@ -1,8 +1,5 @@
 {
   "name": "Nexus Growth Agency",
   "description": "A high-end Digital Marketing, SEO, and Web Development agency website featuring an AI-powered growth strategy generator and immersive animations.",
-  "requestFramePermissions": [
-    "camera",
-    "microphone"
-  ]
+  "requestFramePermissions": []
 }
