@@ -4,8 +4,69 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Nexus Growth | Premium Digital Agency</title>
-    <meta name="description" content="Elevate your brand with Nexus Growth. Elite SEO, Web Development, and Digital Marketing strategies.">
+    <title>Nexus Growth Agency | Elite SEO, Web Dev & Digital Marketing</title>
+    <meta name="description" content="Nexus Growth is a premium digital agency specializing in aggressive SEO, high-performance web engineering, and data-driven marketing strategies to dominate your market.">
+    <meta name="keywords" content="digital marketing agency, SEO services, web development, growth strategy, PPC management, Nexus Growth">
+    <link rel="canonical" href="https://nexusgrowth.agency/">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://nexusgrowth.agency/">
+    <meta property="og:title" content="Nexus Growth Agency | Elite Digital Growth Partners">
+    <meta property="og:description" content="Transform your business into a dominant market force with elite web engineering and aggressive SEO strategies.">
+    <meta property="og:image" content="https://picsum.photos/seed/nexus/1200/630">
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="https://nexusgrowth.agency/">
+    <meta property="twitter:title" content="Nexus Growth Agency | Elite Digital Growth Partners">
+    <meta property="twitter:description" content="Transform your business into a dominant market force with elite web engineering and aggressive SEO strategies.">
+    <meta property="twitter:image" content="https://picsum.photos/seed/nexus/1200/630">
+
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#4f46e5">
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "ProfessionalService",
+      "name": "Nexus Growth Agency",
+      "image": "https://picsum.photos/seed/nexus/1200/630",
+      "description": "Elite Digital Marketing, SEO, and Web Development agency.",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "Global",
+        "addressCountry": "US"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 37.7749,
+        "longitude": -122.4194
+      },
+      "url": "https://nexusgrowth.agency/",
+      "telephone": "+1000000000",
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday"
+          ],
+          "opens": "09:00",
+          "closes": "18:00"
+        }
+      ],
+      "sameAs": [
+        "https://twitter.com/nexusgrowth",
+        "https://linkedin.com/company/nexusgrowth"
+      ]
+    }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -84,6 +145,21 @@
       .reveal-left { transform: translateX(-60px); }
       .reveal-right { transform: translateX(60px); }
 
+      .delay-100 { transition-delay: 100ms; }
+      .delay-200 { transition-delay: 200ms; }
+      .delay-300 { transition-delay: 300ms; }
+      .delay-400 { transition-delay: 400ms; }
+      .delay-500 { transition-delay: 500ms; }
+      .delay-700 { transition-delay: 700ms; }
+
+      @keyframes spin-slow {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+      }
+      .animate-spin-slow {
+        animation: spin-slow 8s linear infinite;
+      }
+
       .aurora-sphere {
         position: absolute;
         border-radius: 50%;
@@ -135,9 +211,11 @@
 }
 </script>
     <script type="module" src="./index.tsx"></script>
-  </head>
+  <link rel="stylesheet" href="/index.css">
+</head>
   <body>
     <div class="grainy"></div>
     <div id="root"></div>
-  </body>
+  <script type="module" src="/index.tsx"></script>
+</body>
 </html>

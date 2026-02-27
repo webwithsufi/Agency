@@ -2,12 +2,6 @@ import React, { useState } from 'react';
 import { Mail, Phone, Send, CheckCircle, ArrowLeft, ChevronDown, AlertTriangle, Copy, Check, Zap, ShieldCheck } from 'lucide-react';
 
 export const Contact: React.FC = () => {
-  // --- FORMSPREE CONFIGURATION ---
-  // Updated with the user provided ID from https://formspree.io/f/mbdknpgg
-  // Added string type annotation to allow comparison with placeholder string literal
-  const FORMSPREE_ID: string = "mbdknpgg"; 
-  // -------------------------------
-
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -29,29 +23,25 @@ export const Contact: React.FC = () => {
     setLoading(true);
     setError(null);
 
-    // Ensure FORMSPREE_ID is not empty or the default placeholder
-    if (!FORMSPREE_ID || FORMSPREE_ID === "YOUR_FORMSPREE_ID") {
-      setError("System Configuration Required: Missing Formspree ID.");
-      setLoading(false);
-      return;
-    }
-
     const formData = new FormData(e.currentTarget);
+    const data = Object.fromEntries(formData.entries());
     
     try {
-      const response = await fetch(`https://formspree.io/f/${FORMSPREE_ID}`, {
+      const response = await fetch("/api/contact", {
         method: "POST",
-        body: formData,
+        body: JSON.stringify(data),
         headers: {
+          'Content-Type': 'application/json',
           'Accept': 'application/json'
         }
       });
 
+      const result = await response.json();
+
       if (response.ok) {
         setSubmitted(true);
       } else {
-        const data = await response.json();
-        throw new Error(data.error || "Submission failed. Please check your Formspree settings.");
+        throw new Error(result.error || "Submission failed. Please try again.");
       }
     } catch (err: any) {
       setError(err.message || "Connection error. Please try again.");
@@ -138,52 +128,82 @@ export const Contact: React.FC = () => {
               
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Your Identity</label>
+                  <label htmlFor="contact-name" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Your Identity</label>
                   <input 
+                    id="contact-name"
                     name="name"
                     required 
                     type="text" 
+                    aria-required="true"
                     className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white text-base focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all placeholder:text-slate-700 font-medium" 
                     placeholder="John Doe" 
                   />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Work Email</label>
+                  <label htmlFor="contact-email" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Work Email</label>
                   <input 
+                    id="contact-email"
                     name="email"
                     required 
                     type="email" 
+                    aria-required="true"
                     className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white text-base focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all placeholder:text-slate-700 font-medium" 
                     placeholder="john@company.com" 
                   />
                 </div>
               </div>
               
-              <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Service Tier</label>
-                <div className="relative">
-                  <select 
-                    name="service"
-                    required 
-                    value={selectedService}
-                    onChange={(e) => setSelectedService(e.target.value)}
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white text-base focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all appearance-none cursor-pointer font-medium"
-                  >
-                    <option value="" disabled className="bg-[#020617]">Select expertise required...</option>
-                    {services.map((service) => (
-                      <option key={service} value={service} className="bg-[#020617]">{service}</option>
-                    ))}
-                  </select>
-                  <ChevronDown size={20} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                <div className="space-y-2">
+                  <label htmlFor="contact-service" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Service Tier</label>
+                  <div className="relative">
+                    <select 
+                      id="contact-service"
+                      name="service"
+                      required 
+                      aria-required="true"
+                      value={selectedService}
+                      onChange={(e) => setSelectedService(e.target.value)}
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white text-base focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all appearance-none cursor-pointer font-medium"
+                    >
+                      <option value="" disabled className="bg-[#020617]">Select expertise required...</option>
+                      {services.map((service) => (
+                        <option key={service} value={service} className="bg-[#020617]">{service}</option>
+                      ))}
+                    </select>
+                    <ChevronDown size={20} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label htmlFor="contact-budget" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Project Budget</label>
+                  <div className="relative">
+                    <select 
+                      id="contact-budget"
+                      name="budget"
+                      required 
+                      aria-required="true"
+                      className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white text-base focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all appearance-none cursor-pointer font-medium"
+                    >
+                      <option value="" disabled className="bg-[#020617]">Select budget range...</option>
+                      <option value="5k-15k" className="bg-[#020617]">$5,000 - $15,000</option>
+                      <option value="15k-50k" className="bg-[#020617]">$15,000 - $50,000</option>
+                      <option value="50k-150k" className="bg-[#020617]">$50,000 - $150,000</option>
+                      <option value="150k+" className="bg-[#020617]">$150,000+</option>
+                    </select>
+                    <ChevronDown size={20} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" />
+                  </div>
                 </div>
               </div>
 
               <div className="space-y-2">
-                <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Project Brief</label>
+                <label htmlFor="contact-message" className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500 ml-1">Project Brief</label>
                 <textarea 
+                  id="contact-message"
                   name="message"
                   rows={4} 
                   required 
+                  aria-required="true"
                   className="w-full bg-white/5 border border-white/10 rounded-2xl px-6 py-4 text-white text-base focus:ring-2 focus:ring-indigo-500/50 outline-none transition-all resize-none placeholder:text-slate-700 font-medium" 
                   placeholder="Tell us about your current bottlenecks and growth targets..."
                 ></textarea>
@@ -194,7 +214,7 @@ export const Contact: React.FC = () => {
                 type="submit" 
                 className="w-full py-5 accent-gradient text-white rounded-2xl font-black uppercase tracking-[0.3em] text-xs flex items-center justify-center gap-3 transition-all hover:scale-[1.01] hover:brightness-110 active:scale-95 shadow-[0_20px_50px_-15px_rgba(99,102,241,0.5)] disabled:opacity-50"
               >
-                {loading ? 'Encrypting & Sending...' : 'Initiate Scaling'} <Send size={18} />
+                {loading ? 'Encrypting & Sending...' : 'Get a Free Proposal'} <Send size={18} />
               </button>
 
               <div className="flex items-center justify-center gap-4 mt-6">

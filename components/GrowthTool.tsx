@@ -131,33 +131,70 @@ export const GrowthTool: React.FC = () => {
         )}
 
         {result && (
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 animate-in fade-in zoom-in duration-1000 relative z-10">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8 animate-in fade-in zoom-in duration-1000 relative z-10">
             {result.map((strategy, i) => (
-              <div key={i} className="p-8 sm:p-10 bg-white/[0.02] border border-white/5 rounded-[3.5rem] hover:border-indigo-500/30 transition-all flex flex-col h-full group">
-                <div className="flex items-center justify-between mb-8">
-                  <span className="px-4 py-2 rounded-full text-[10px] font-black uppercase tracking-widest bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
-                    {strategy.priority} Priority
-                  </span>
-                  <span className="text-[10px] text-slate-600 font-black uppercase tracking-widest">{strategy.timeline}</span>
-                </div>
-                <h4 className="text-2xl font-black text-white mb-8 leading-tight group-hover:text-indigo-400 transition-colors uppercase tracking-tight">
-                  {strategy.title}
-                </h4>
-                <ul className="space-y-6 flex-grow mb-12">
-                  {strategy.points.map((p, idx) => (
-                    <li key={idx} className="flex gap-4 text-sm text-slate-400 leading-relaxed font-semibold">
-                      <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 mt-2 shrink-0 group-hover:scale-150 transition-transform shadow-[0_0_10px_rgba(99,102,241,0.8)]" />
-                      {p}
-                    </li>
-                  ))}
-                </ul>
+              <div 
+                key={i} 
+                className="group relative flex flex-col h-full"
+                style={{ animationDelay: `${i * 150}ms` }}
+              >
+                {/* Card Background with Glow */}
+                <div className="absolute -inset-0.5 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-[2.5rem] blur opacity-0 group-hover:opacity-100 transition duration-1000 group-hover:duration-200"></div>
                 
-                <button 
-                  onClick={scrollToContact}
-                  className="mt-auto w-full py-5 rounded-2xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.3em] hover:bg-indigo-600 transition-all flex items-center justify-center gap-3 group/btn hover:border-indigo-500/50 shadow-lg"
-                >
-                  Implement Now <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
-                </button>
+                <div className="relative flex flex-col h-full p-8 sm:p-10 bg-[#0a0f1e]/80 backdrop-blur-xl border border-white/5 rounded-[2.5rem] hover:border-indigo-500/40 transition-all duration-500 shadow-2xl overflow-hidden">
+                  {/* Technical Header */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+                    <div className="flex flex-wrap items-center gap-3">
+                      <div className="w-8 h-8 rounded-lg bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center text-indigo-400 font-mono text-xs font-bold shrink-0">
+                        0{i + 1}
+                      </div>
+                      <span className={`px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${
+                        strategy.priority === 'High' 
+                          ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' 
+                          : 'bg-indigo-500/10 text-indigo-400 border-indigo-500/20'
+                      }`}>
+                        {strategy.priority} Priority
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-2 text-[9px] text-slate-500 font-black uppercase tracking-widest bg-white/5 px-3 py-1 rounded-full border border-white/5">
+                      <RefreshCw size={10} className="animate-spin-slow shrink-0" />
+                      <span className="whitespace-nowrap">{strategy.timeline}</span>
+                    </div>
+                  </div>
+
+                  {/* Title */}
+                  <h4 className="text-xl sm:text-2xl font-black text-white mb-6 leading-tight group-hover:text-indigo-400 transition-colors uppercase tracking-tight">
+                    {strategy.title}
+                  </h4>
+
+                  {/* Points List */}
+                  <div className="space-y-4 flex-grow mb-10">
+                    {strategy.points.map((p, idx) => (
+                      <div key={idx} className="flex gap-4 group/point">
+                        <div className="mt-1.5 shrink-0">
+                          <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 group-hover/point:scale-150 transition-transform shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+                        </div>
+                        <p className="text-sm text-slate-400 leading-relaxed font-medium group-hover/point:text-slate-300 transition-colors">
+                          {p}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  {/* Action Button */}
+                  <button 
+                    onClick={scrollToContact}
+                    className="relative overflow-hidden w-full py-4 rounded-xl bg-white/5 border border-white/10 text-white text-[10px] font-black uppercase tracking-[0.2em] transition-all duration-300 flex items-center justify-center gap-3 group/btn hover:bg-indigo-600 hover:border-indigo-500 hover:shadow-[0_0_20px_rgba(79,70,229,0.4)]"
+                  >
+                    <span className="relative z-10 flex items-center gap-2">
+                      Deploy Strategy <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
+                    </span>
+                    <div className="absolute inset-0 bg-gradient-to-r from-indigo-600 to-purple-600 opacity-0 group-hover/btn:opacity-100 transition-opacity duration-300" />
+                  </button>
+
+                  {/* Subtle Grid Pattern Overlay */}
+                  <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(#4f46e5_1px,transparent_1px)] [background-size:20px_20px]"></div>
+                </div>
               </div>
             ))}
           </div>

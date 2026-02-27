@@ -2,7 +2,11 @@
 import React from 'react';
 import { Zap, Github, Twitter, Linkedin, Instagram } from 'lucide-react';
 
-export const Footer: React.FC = () => {
+interface FooterProps {
+  onShowPrivacy: () => void;
+}
+
+export const Footer: React.FC<FooterProps> = ({ onShowPrivacy }) => {
   const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
     e.preventDefault();
     const element = document.getElementById(id.replace('#', ''));
@@ -69,7 +73,7 @@ export const Footer: React.FC = () => {
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-4 text-[9px] text-gray-600 font-black uppercase tracking-[0.2em]">
           <p>© 2024 Nexus Growth Agency. All results are data-driven.</p>
           <div className="flex gap-6">
-            <a href="#" className="hover:text-white transition-colors">Privacy</a>
+            <button onClick={onShowPrivacy} className="hover:text-white transition-colors uppercase tracking-widest">Privacy</button>
             <a href="#" className="hover:text-white transition-colors">Terms</a>
             <a href="#" className="hover:text-white transition-colors">Cookies</a>
           </div>

@@ -9,6 +9,8 @@ interface BlogPostProps {
     author: string;
     date: string;
     content: string;
+    excerpt: string;
+    image: string;
   };
   onBack: (targetId?: string) => void;
 }
@@ -17,6 +19,40 @@ export const BlogPost: React.FC<BlogPostProps> = ({ post, onBack }) => {
   const contentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    // Store original meta tags to restore them later
+    const originalTitle = document.title;
+    const metaDescription = document.querySelector('meta[name="description"]');
+    const originalDescription = metaDescription?.getAttribute('content') || '';
+    
+    const ogTitle = document.querySelector('meta[property="og:title"]');
+    const originalOgTitle = ogTitle?.getAttribute('content') || '';
+    
+    const ogDescription = document.querySelector('meta[property="og:description"]');
+    const originalOgDescription = ogDescription?.getAttribute('content') || '';
+    
+    const ogImage = document.querySelector('meta[property="og:image"]');
+    const originalOgImage = ogImage?.getAttribute('content') || '';
+    
+    const twitterTitle = document.querySelector('meta[property="twitter:title"]');
+    const originalTwitterTitle = twitterTitle?.getAttribute('content') || '';
+    
+    const twitterDescription = document.querySelector('meta[property="twitter:description"]');
+    const originalTwitterDescription = twitterDescription?.getAttribute('content') || '';
+    
+    const twitterImage = document.querySelector('meta[property="twitter:image"]');
+    const originalTwitterImage = twitterImage?.getAttribute('content') || '';
+
+    // Update meta tags for the current post
+    const fullTitle = `${post.title} | Nexus Growth Insights`;
+    document.title = fullTitle;
+    metaDescription?.setAttribute('content', post.excerpt);
+    ogTitle?.setAttribute('content', fullTitle);
+    ogDescription?.setAttribute('content', post.excerpt);
+    ogImage?.setAttribute('content', post.image);
+    twitterTitle?.setAttribute('content', fullTitle);
+    twitterDescription?.setAttribute('content', post.excerpt);
+    twitterImage?.setAttribute('content', post.image);
+
     const handleLinkClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const anchor = target.closest('a');
@@ -34,11 +70,21 @@ export const BlogPost: React.FC<BlogPostProps> = ({ post, onBack }) => {
     }
 
     return () => {
+      // Restore original meta tags on unmount
+      document.title = originalTitle;
+      metaDescription?.setAttribute('content', originalDescription);
+      ogTitle?.setAttribute('content', originalOgTitle);
+      ogDescription?.setAttribute('content', originalOgDescription);
+      ogImage?.setAttribute('content', originalOgImage);
+      twitterTitle?.setAttribute('content', originalTwitterTitle);
+      twitterDescription?.setAttribute('content', originalTwitterDescription);
+      twitterImage?.setAttribute('content', originalTwitterImage);
+
       if (contentEl) {
         contentEl.removeEventListener('click', handleLinkClick);
       }
     };
-  }, [onBack]);
+  }, [post, onBack]);
 
   return (
     <div className="max-w-4xl mx-auto px-6 md:px-8 py-12 sm:py-20 animate-in fade-in slide-in-from-bottom-10 duration-700">
@@ -70,9 +116,27 @@ export const BlogPost: React.FC<BlogPostProps> = ({ post, onBack }) => {
             <Clock size={14} />
             <span>6 min read</span>
           </div>
-          <button className="hidden sm:flex items-center gap-2 ml-auto hover:text-indigo-400 transition-colors">
-            <Share2 size={14} /> Share Guide
-          </button>
+          <div className="flex items-center gap-4 ml-auto">
+            <span className="hidden sm:inline text-slate-600">Share:</span>
+            <a 
+              href={`https://twitter.com/intent/tweet?text=${encodeURIComponent(post.title)}&url=${encodeURIComponent(window.location.href)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full bg-white/5 hover:bg-indigo-500/20 text-slate-400 hover:text-indigo-400 transition-all"
+              title="Share on Twitter"
+            >
+              <Share2 size={16} />
+            </a>
+            <a 
+              href={`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(window.location.href)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 rounded-full bg-white/5 hover:bg-blue-500/20 text-slate-400 hover:text-blue-400 transition-all"
+              title="Share on LinkedIn"
+            >
+              <svg size={16} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+            </a>
+          </div>
         </div>
       </header>
 

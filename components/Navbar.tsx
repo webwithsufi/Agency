@@ -48,6 +48,7 @@ export const Navbar: React.FC<NavbarProps> = ({ scrolled }) => {
   const navLinks = [
     { name: 'About', href: '#about', icon: <Info size={12} className="text-blue-400" /> },
     { name: 'Services', href: '#services' },
+    { name: 'Portfolio', href: '#portfolio' },
     { name: 'Insights', href: '#blog', icon: <BookOpen size={12} className="text-emerald-400" /> },
     { name: 'AI Strategy', href: '#ai-strategy', icon: <Sparkles size={12} className="text-indigo-400" /> },
   ];

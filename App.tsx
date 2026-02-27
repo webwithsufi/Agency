@@ -4,17 +4,20 @@ import { Navbar } from './components/Navbar.tsx';
 import { Hero } from './components/Hero.tsx';
 import { About } from './components/About.tsx';
 import { Services } from './components/Services.tsx';
+import { Portfolio } from './components/Portfolio.tsx';
 import { GrowthTool } from './components/GrowthTool.tsx';
 import { Blog } from './components/Blog.tsx';
 import { BlogPost } from './components/BlogPost.tsx';
 import { Testimonials } from './components/Testimonials.tsx';
 import { Contact } from './components/Contact.tsx';
 import { Footer } from './components/Footer.tsx';
+import { PrivacyPolicy } from './components/PrivacyPolicy.tsx';
 
 const App: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentPost, setCurrentPost] = useState<any>(null);
+  const [showPrivacy, setShowPrivacy] = useState(false);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -39,7 +42,14 @@ const App: React.FC = () => {
 
     const setupObserver = () => {
       const elements = document.querySelectorAll('.reveal');
-      elements.forEach(el => observer.observe(el));
+      elements.forEach(el => {
+        // If element is already in viewport or very close, show it immediately
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight + 100) {
+          el.classList.add('visible');
+        }
+        observer.observe(el);
+      });
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
@@ -52,15 +62,23 @@ const App: React.FC = () => {
       observer.disconnect();
       clearTimeout(timer);
     };
-  }, [currentPost]);
+  }, [currentPost, showPrivacy]);
 
   const handleReadBlog = (post: any) => {
     setCurrentPost(post);
+    setShowPrivacy(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleShowPrivacy = () => {
+    setShowPrivacy(true);
+    setCurrentPost(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackToHome = (targetId?: string) => {
     setCurrentPost(null);
+    setShowPrivacy(false);
     if (targetId) {
       setTimeout(() => {
         const element = document.getElementById(targetId.replace('#', ''));
@@ -71,6 +89,18 @@ const App: React.FC = () => {
     }
   };
 
+  if (showPrivacy) {
+    return (
+      <div className="min-h-screen bg-[#020617] selection:bg-indigo-500/30 selection:text-indigo-200">
+        <Navbar scrolled={true} />
+        <main className="pt-20">
+          <PrivacyPolicy onBack={() => handleBackToHome()} />
+        </main>
+        <Footer onShowPrivacy={handleShowPrivacy} />
+      </div>
+    );
+  }
+
   if (currentPost) {
     return (
       <div className="min-h-screen bg-[#020617] selection:bg-indigo-500/30 selection:text-indigo-200">
@@ -78,7 +108,7 @@ const App: React.FC = () => {
         <main className="pt-20">
           <BlogPost post={currentPost} onBack={handleBackToHome} />
         </main>
-        <Footer />
+        <Footer onShowPrivacy={handleShowPrivacy} />
       </div>
     );
   }
@@ -105,6 +135,9 @@ const App: React.FC = () => {
         <section id="services">
           <Services />
         </section>
+        <section id="portfolio">
+          <Portfolio />
+        </section>
         <section id="ai-strategy" className="py-20 relative">
           <div className="absolute inset-0 bg-indigo-500/[0.02] -z-10" />
           <GrowthTool />
@@ -120,7 +153,7 @@ const App: React.FC = () => {
         </section>
       </main>
 
-      <Footer />
+      <Footer onShowPrivacy={handleShowPrivacy} />
     </div>
   );
 };
