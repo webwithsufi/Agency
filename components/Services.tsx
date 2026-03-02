@@ -55,7 +55,7 @@ export const Services: React.FC = () => {
       <div className="flex flex-col md:flex-row justify-between items-end mb-20 gap-8">
         <div className="max-w-2xl">
           <h2 className="text-indigo-400 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">How We Help You Grow</h2>
-          <h3 className="text-4xl md:text-6xl font-bold text-white tracking-tighter">Everything you need to <br/><span className="gradient-text">win more clients.</span></h3>
+          <h3 className="text-2xl md:text-6xl font-bold text-white tracking-tighter">Everything you need to <br/><span className="gradient-text">win more clients.</span></h3>
         </div>
         <p className="text-slate-500 max-w-sm text-sm font-medium leading-relaxed">
           No confusing tech talk. Just real results, more customers, and a professional website that works for your business 24/7.
@@ -64,7 +64,7 @@ export const Services: React.FC = () => {
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {services.map((service, index) => (
-          <div key={index} className={`reveal reveal-up delay-${(index % 3) * 100} group p-10 glass-card rounded-[2.5rem] flex flex-col h-full`}>
+          <div key={index} className="group p-10 glass-card rounded-[2.5rem] flex flex-col h-full">
             <div className="w-14 h-14 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center mb-8 group-hover:bg-indigo-600/20 group-hover:border-indigo-500/30 transition-all duration-500">
               {service.icon}
             </div>

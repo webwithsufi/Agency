@@ -43,7 +43,7 @@ export const Blog: React.FC<BlogProps> = ({ onReadPost }) => {
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-32">
       <div className="flex flex-col items-center text-center mb-20">
         <h2 className="text-emerald-400 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Growth Insights</h2>
-        <h3 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-6">Expertise shared. <br/><span className="gradient-text italic">Success scaled.</span></h3>
+        <h3 className="text-2xl md:text-6xl font-bold text-white tracking-tighter mb-6">Expertise shared. <br/><span className="gradient-text italic">Success scaled.</span></h3>
         <p className="text-slate-500 max-w-xl text-lg font-medium">
           Professional strategies written by our growth leads to help you understand the digital landscape.
         </p>

@@ -24,7 +24,14 @@ export const GrowthTool: React.FC = () => {
     setResult(null);
 
     try {
-      const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+      // Look for API key in multiple possible locations
+      const apiKey = process.env.API_KEY || (import.meta as any).env.VITE_GEMINI_API_KEY;
+      
+      if (!apiKey || apiKey === 'YOUR_API_KEY') {
+        throw new Error("Nexus AI Core is not configured. Please set VITE_GEMINI_API_KEY in your environment.");
+      }
+
+      const ai = new GoogleGenAI({ apiKey });
       const response = await ai.models.generateContent({
         model: 'gemini-3-flash-preview',
         contents: [{
@@ -86,7 +93,7 @@ export const GrowthTool: React.FC = () => {
           <div className="w-20 h-20 sm:w-28 sm:h-28 rounded-3xl accent-gradient flex items-center justify-center mx-auto mb-10 shadow-[0_25px_50px_-12px_rgba(99,102,241,0.5)] border border-white/20">
             <Sparkles size={40} className="text-white animate-pulse" />
           </div>
-          <h2 className="text-4xl sm:text-6xl font-black text-white mb-6 tracking-tighter uppercase">AI Strategy Engine</h2>
+          <h2 className="text-2xl sm:text-6xl font-black text-white mb-6 tracking-tighter uppercase">AI Strategy Engine</h2>
           <p className="text-slate-400 text-lg font-medium px-4 max-w-2xl mx-auto leading-relaxed">
             Harness the power of our proprietary Nexus Intelligence to generate a bespoke growth roadmap for your industry in seconds.
           </p>
@@ -95,8 +102,8 @@ export const GrowthTool: React.FC = () => {
         <div className="max-w-3xl mx-auto flex flex-col sm:flex-row gap-4 mb-20 relative z-10">
           <input 
             type="text"
-            placeholder="Enter your industry (e.g. Luxury Real Estate, B2B SaaS)"
-            className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-bold text-lg"
+            placeholder="Enter your industry (e.g. SaaS)"
+            className="flex-1 bg-white/5 border border-white/10 rounded-2xl px-4 sm:px-8 py-4 sm:py-5 text-white placeholder:text-slate-600 focus:outline-none focus:ring-2 focus:ring-indigo-500/50 transition-all font-bold text-base sm:text-lg"
             value={niche}
             onChange={(e) => {
               setNiche(e.target.value);

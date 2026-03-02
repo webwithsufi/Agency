@@ -32,9 +32,9 @@ export const Testimonials: React.FC = () => {
 
   return (
     <div className="max-w-7xl mx-auto px-4 md:px-8 py-24">
-      <div className="text-center mb-20 reveal reveal-up">
+      <div className="text-center mb-20">
         <h2 className="text-indigo-400 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Client Success</h2>
-        <h3 className="text-3xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tighter uppercase">Built for Success. <br/><span className="gradient-text italic">Trusted by Leaders.</span></h3>
+        <h3 className="text-2xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tighter uppercase">Built for Success. <br/><span className="gradient-text italic">Trusted by Leaders.</span></h3>
         <p className="text-slate-500 max-w-xl mx-auto text-lg font-medium leading-relaxed">
           See why fast-growing companies choose Nexus Growth to lead their digital transformation.
         </p>
@@ -44,7 +44,7 @@ export const Testimonials: React.FC = () => {
         {testimonials.map((t, idx) => (
           <div 
             key={idx} 
-            className={`reveal reveal-up delay-${(idx + 1) * 200} p-10 glass-card rounded-[3rem] border-white/5 relative group hover:bg-white/[0.03] transition-all duration-500`}
+            className="p-10 glass-card rounded-[3rem] border-white/5 relative group hover:bg-white/[0.03] transition-all duration-500"
           >
             <Quote className="absolute top-8 right-10 text-white/5 w-16 h-16 group-hover:text-indigo-500/10 transition-colors" />
             <div className="flex gap-1 mb-8">

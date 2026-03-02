@@ -59,11 +59,11 @@ export const Contact: React.FC = () => {
   return (
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-20 sm:py-32">
       <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-start">
-        <div className="reveal reveal-left sticky top-32">
+        <div className="sticky top-32">
           <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-[10px] font-bold uppercase tracking-widest mb-6 border border-indigo-500/20">
             <Zap size={12} /> Priority Access
           </div>
-          <h3 className="text-4xl sm:text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter leading-tight uppercase">
+          <h3 className="text-3xl sm:text-5xl md:text-7xl font-black text-white mb-6 tracking-tighter leading-tight uppercase">
             Let's build your <br /><span className="gradient-text italic">digital empire.</span>
           </h3>
           <p className="text-slate-400 mb-10 text-lg font-medium leading-relaxed max-w-lg">
@@ -96,7 +96,7 @@ export const Contact: React.FC = () => {
           </div>
         </div>
 
-        <div className="glass-card p-8 sm:p-12 rounded-[3rem] relative overflow-hidden reveal reveal-right border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent shadow-2xl">
+        <div className="glass-card p-8 sm:p-12 rounded-[3rem] relative overflow-hidden border-white/5 bg-gradient-to-br from-white/[0.02] to-transparent shadow-2xl">
           {submitted ? (
             <div className="text-center py-16 animate-in fade-in zoom-in duration-700">
               <div className="w-24 h-24 bg-emerald-500/20 text-emerald-500 rounded-full flex items-center justify-center mx-auto mb-8 border border-emerald-500/30">

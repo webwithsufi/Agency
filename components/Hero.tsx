@@ -23,7 +23,7 @@ export const Hero: React.FC = () => {
             <span className="truncate">Global Growth Partners 2024</span>
           </div>
 
-          <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black leading-[0.95] tracking-tighter text-white mb-10 uppercase">
+          <h1 className="text-3xl sm:text-7xl md:text-8xl lg:text-[7rem] font-black leading-[0.95] tracking-tighter text-white mb-10 uppercase">
             WE BUILD <br />
             <span className="gradient-text italic">EMPIRES.</span>
           </h1>

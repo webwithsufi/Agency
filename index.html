@@ -1,6 +1,6 @@
 
 <!DOCTYPE html>
-<html lang="en" style="scroll-behavior: smooth;">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -72,11 +72,24 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&display=swap" rel="stylesheet">
     <style>
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: hidden;
+      }
+
       body {
         font-family: 'Plus Jakarta Sans', sans-serif;
         background-color: #020617;
         color: #f8fafc;
+        margin: 0;
+        padding: 0;
         overflow-x: hidden;
+        position: relative;
+        -webkit-overflow-scrolling: touch;
       }
       
       h1, h2, h3, h4 { 
@@ -130,27 +143,6 @@
         66% { transform: translate(-40px, 30px) scale(0.8); filter: blur(80px); }
         100% { transform: translate(0, 0) scale(1); filter: blur(100px); }
       }
-
-      .reveal {
-        opacity: 0;
-        transition: all 1.2s cubic-bezier(0.16, 1, 0.3, 1);
-      }
-
-      .reveal.visible {
-        opacity: 1;
-        transform: none !important;
-      }
-
-      .reveal-up { transform: translateY(60px); }
-      .reveal-left { transform: translateX(-60px); }
-      .reveal-right { transform: translateX(60px); }
-
-      .delay-100 { transition-delay: 100ms; }
-      .delay-200 { transition-delay: 200ms; }
-      .delay-300 { transition-delay: 300ms; }
-      .delay-400 { transition-delay: 400ms; }
-      .delay-500 { transition-delay: 500ms; }
-      .delay-700 { transition-delay: 700ms; }
 
       @keyframes spin-slow {
         from { transform: rotate(0deg); }

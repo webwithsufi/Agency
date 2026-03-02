@@ -27,40 +27,10 @@ const App: React.FC = () => {
       setScrollProgress((winScroll / height) * 100);
     };
 
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    };
-
-    const observer = new IntersectionObserver(observerCallback, {
-      threshold: 0.05, // More aggressive trigger
-      rootMargin: '50px' // Start animation before it enters viewport
-    });
-
-    const setupObserver = () => {
-      const elements = document.querySelectorAll('.reveal');
-      elements.forEach(el => {
-        // If element is already in viewport or very close, show it immediately
-        const rect = el.getBoundingClientRect();
-        if (rect.top < window.innerHeight + 100) {
-          el.classList.add('visible');
-        }
-        observer.observe(el);
-      });
-    };
-
     window.addEventListener('scroll', handleScroll, { passive: true });
     
-    // Initial setup
-    const timer = setTimeout(setupObserver, 200);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      observer.disconnect();
-      clearTimeout(timer);
     };
   }, [currentPost, showPrivacy]);
 
@@ -114,16 +84,18 @@ const App: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-[#020617] selection:bg-indigo-500/30 selection:text-indigo-200 overflow-x-hidden">
+    <div className="min-h-screen bg-[#020617] selection:bg-indigo-500/30 selection:text-indigo-200 relative">
       <div 
         className="fixed top-0 left-0 h-1 accent-gradient z-[100] transition-all duration-150" 
         style={{ width: `${scrollProgress}%` }}
       />
       
-      {/* Animated Background Spheres */}
-      <div className="aurora-sphere w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-indigo-600/20 -top-20 -left-20" />
-      <div className="aurora-sphere w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-purple-600/10 top-[40%] -right-20" />
-      <div className="aurora-sphere w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] bg-blue-600/10 -bottom-20 left-[20%]" />
+      {/* Animated Background Spheres Container */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none -z-10">
+        <div className="aurora-sphere w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] bg-indigo-600/20 -top-20 -left-20" />
+        <div className="aurora-sphere w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] bg-purple-600/10 top-[40%] -right-20" />
+        <div className="aurora-sphere w-[350px] h-[350px] sm:w-[600px] sm:h-[600px] bg-blue-600/10 -bottom-20 left-[20%]" />
+      </div>
 
       <Navbar scrolled={scrolled} />
       

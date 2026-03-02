@@ -15,7 +15,7 @@ export const About: React.FC = () => {
         <div className="relative">
           <div className="absolute -top-20 -left-20 w-64 h-64 bg-indigo-600/10 blur-[100px] rounded-full -z-10" />
           <h2 className="text-indigo-400 font-bold uppercase tracking-[0.3em] text-[10px] mb-6">Our Story & Mission</h2>
-          <h3 className="text-3xl sm:text-4xl md:text-6xl font-bold text-white mb-6 sm:mb-8 tracking-tighter leading-[1.1] sm:leading-tight">
+          <h3 className="text-2xl sm:text-4xl md:text-6xl font-bold text-white mb-6 sm:mb-8 tracking-tighter leading-[1.1] sm:leading-tight">
             Built by engineers. <br />
             <span className="gradient-text italic">Driven by results.</span>
           </h3>
@@ -28,11 +28,11 @@ export const About: React.FC = () => {
             applying the same psychological tactics and sub-second performance standards that we use for our global partners.
           </p>
           <div className="flex gap-8 sm:gap-10">
-            <div className="reveal reveal-up delay-200">
+            <div className="">
               <p className="text-3xl sm:text-4xl font-black text-white mb-1">15+</p>
               <p className="text-[9px] sm:text-[10px] uppercase font-bold tracking-[0.2em] text-slate-500">Global Partners</p>
             </div>
-            <div className="reveal reveal-up delay-300">
+            <div className="">
               <p className="text-3xl sm:text-4xl font-black text-white mb-1">100%</p>
               <p className="text-[9px] sm:text-[10px] uppercase font-bold tracking-[0.2em] text-slate-500">Success Rate</p>
             </div>
@@ -41,7 +41,7 @@ export const About: React.FC = () => {
 
         <div className="grid gap-4 sm:gap-6">
           {values.map((v, i) => (
-            <div key={i} className={`reveal reveal-right delay-${(i + 1) * 200} glass-card p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] flex gap-4 sm:gap-6 items-start group`}>
+            <div key={i} className="glass-card p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2rem] flex gap-4 sm:gap-6 items-start group">
               <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-white/5 flex items-center justify-center shrink-0 group-hover:scale-110 transition-transform">
                 {React.cloneElement(v.icon as React.ReactElement, { size: 20 })}
               </div>

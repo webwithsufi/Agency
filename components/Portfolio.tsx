@@ -37,7 +37,7 @@ export const Portfolio: React.FC = () => {
     <div className="max-w-7xl mx-auto px-6 md:px-8 py-32">
       <div className="flex flex-col items-center text-center mb-20">
         <h2 className="text-indigo-400 font-bold uppercase tracking-[0.3em] text-[10px] mb-4">Case Studies</h2>
-        <h3 className="text-4xl md:text-6xl font-bold text-white tracking-tighter mb-6">Results that <span className="gradient-text italic">speak louder.</span></h3>
+        <h3 className="text-2xl md:text-6xl font-bold text-white tracking-tighter mb-6">Results that <span className="gradient-text italic">speak louder.</span></h3>
         <p className="text-slate-500 max-w-xl text-lg font-medium">
           We don't just design; we solve business problems. Explore how we've helped brands dominate their markets.
         </p>
@@ -45,7 +45,7 @@ export const Portfolio: React.FC = () => {
 
       <div className="grid gap-12 sm:gap-20">
         {caseStudies.map((study, i) => (
-          <div key={i} className={`reveal ${i % 2 === 0 ? 'reveal-left' : 'reveal-right'} grid lg:grid-cols-2 gap-10 lg:gap-16 items-center group`}>
+          <div key={i} className={`grid lg:grid-cols-2 gap-10 lg:gap-16 items-center group`}>
             <div className={`relative rounded-[3rem] overflow-hidden glass-card border-white/5 ${i % 2 !== 0 ? 'lg:order-2' : ''}`}>
               <img 
                 src={study.image} 
@@ -109,7 +109,7 @@ export const Portfolio: React.FC = () => {
         ))}
       </div>
 
-      <div className="mt-20 text-center reveal reveal-up">
+      <div className="mt-20 text-center">
         <button 
           onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
           className="px-12 py-6 glass-card rounded-full text-white font-black text-xs uppercase tracking-[0.2em] hover:bg-white/5 transition-all border-white/10"
