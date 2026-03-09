@@ -8,6 +8,7 @@ import { Portfolio } from './components/Portfolio.tsx';
 import { GrowthTool } from './components/GrowthTool.tsx';
 import { Blog } from './components/Blog.tsx';
 import { BlogPost } from './components/BlogPost.tsx';
+import { ServiceDetail } from './components/ServiceDetail.tsx';
 import { Testimonials } from './components/Testimonials.tsx';
 import { Contact } from './components/Contact.tsx';
 import { Footer } from './components/Footer.tsx';
@@ -17,6 +18,7 @@ const App: React.FC = () => {
   const [scrolled, setScrolled] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [currentPost, setCurrentPost] = useState<any>(null);
+  const [currentService, setCurrentService] = useState<any>(null);
   const [showPrivacy, setShowPrivacy] = useState(false);
 
   useEffect(() => {
@@ -32,10 +34,18 @@ const App: React.FC = () => {
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
-  }, [currentPost, showPrivacy]);
+  }, [currentPost, currentService, showPrivacy]);
 
   const handleReadBlog = (post: any) => {
     setCurrentPost(post);
+    setCurrentService(null);
+    setShowPrivacy(false);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const handleSelectService = (service: any) => {
+    setCurrentService(service);
+    setCurrentPost(null);
     setShowPrivacy(false);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -43,11 +53,13 @@ const App: React.FC = () => {
   const handleShowPrivacy = () => {
     setShowPrivacy(true);
     setCurrentPost(null);
+    setCurrentService(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
   const handleBackToHome = (targetId?: string) => {
     setCurrentPost(null);
+    setCurrentService(null);
     setShowPrivacy(false);
     if (targetId) {
       setTimeout(() => {
@@ -83,6 +95,18 @@ const App: React.FC = () => {
     );
   }
 
+  if (currentService) {
+    return (
+      <div className="min-h-screen bg-[#020617] selection:bg-indigo-500/30 selection:text-indigo-200">
+        <Navbar scrolled={true} />
+        <main className="pt-20">
+          <ServiceDetail service={currentService} onBack={handleBackToHome} />
+        </main>
+        <Footer onShowPrivacy={handleShowPrivacy} />
+      </div>
+    );
+  }
+
   return (
     <div className="min-h-screen bg-[#020617] selection:bg-indigo-500/30 selection:text-indigo-200 relative">
       <div 
@@ -105,7 +129,7 @@ const App: React.FC = () => {
           <About />
         </section>
         <section id="services">
-          <Services />
+          <Services onSelectService={handleSelectService} />
         </section>
         <section id="portfolio">
           <Portfolio />
