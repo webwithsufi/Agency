@@ -3,9 +3,35 @@ import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
 import { fileURLToPath } from "url";
+import nodemailer from "nodemailer";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Lazy initialization for nodemailer transporter
+let transporter: nodemailer.Transporter | null = null;
+
+function getTransporter() {
+  if (!transporter) {
+    const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS } = process.env;
+    
+    if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
+      console.warn("SMTP configuration missing. Email sending will be skipped.");
+      return null;
+    }
+
+    transporter = nodemailer.createTransport({
+      host: SMTP_HOST,
+      port: parseInt(SMTP_PORT),
+      secure: parseInt(SMTP_PORT) === 465, // true for 465, false for other ports
+      auth: {
+        user: SMTP_USER,
+        pass: SMTP_PASS,
+      },
+    });
+  }
+  return transporter;
+}
 
 async function startServer() {
   const app = express();
@@ -130,16 +156,55 @@ async function startServer() {
     }
   });
 
-  app.post("/api/contact", (req, res) => {
-    const { name, email, service, message } = req.body;
+  app.post("/api/contact", async (req, res) => {
+    const { name, email, service, budget, message } = req.body;
     
-    // In a real app, you'd save to DB and send an email
-    console.log("New Contact Form Submission:", { name, email, service, message });
+    console.log("New Contact Form Submission:", { name, email, service, budget, message });
     
-    // Simulate processing
+    const mailTransporter = getTransporter();
+    const contactEmail = process.env.CONTACT_EMAIL || "dmwithsufi@gmail.com";
+
+    if (mailTransporter) {
+      try {
+        await mailTransporter.sendMail({
+          from: `"SF Growth Agency" <${process.env.SMTP_USER}>`,
+          to: contactEmail,
+          subject: `New Growth Inquiry: ${service} from ${name}`,
+          text: `
+            New Contact Form Submission:
+            
+            Name: ${name}
+            Email: ${email}
+            Service: ${service}
+            Budget: ${budget}
+            Message: ${message}
+          `,
+          html: `
+            <div style="font-family: sans-serif; padding: 20px; color: #333;">
+              <h2 style="color: #4f46e5;">New Growth Inquiry</h2>
+              <p><strong>Name:</strong> ${name}</p>
+              <p><strong>Email:</strong> ${email}</p>
+              <p><strong>Service:</strong> ${service}</p>
+              <p><strong>Budget:</strong> ${budget}</p>
+              <p><strong>Message:</strong></p>
+              <div style="background: #f4f4f4; padding: 15px; border-radius: 8px;">
+                ${message.replace(/\n/g, '<br>')}
+              </div>
+            </div>
+          `,
+        });
+        console.log("Email sent successfully to", contactEmail);
+      } catch (error) {
+        console.error("Error sending email:", error);
+      }
+    } else {
+      console.log("Skipping email send due to missing SMTP config.");
+    }
+    
+    // Simulate processing delay
     setTimeout(() => {
       res.json({ success: true, message: "Inquiry received. Our growth team will contact you shortly." });
-    }, 1000);
+    }, 500);
   });
 
   // Vite middleware for development
